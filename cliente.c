@@ -135,26 +135,32 @@ void Sair(int desc_socket){
     
     recv(desc_socket, resposta, 100,0);
     printf("\n[Cliente] Servidor: [%s]",  resposta);
-    while(strcmp(resposta, "bye") != 0){
-        write(desc_socket, "bye", strlen("bye")+1, 0);
-        wait(5);
-    }        
+    
+    write(desc_socket, "bye", strlen("bye")+1, 0);
+    wait(5);
+            
     close(desc_socket);
     printf("Conexão terminada. \n");
 }
 
 int HandShake(int desc_socket){
+    char resposta[100];
     
+    printf("\n[Cliente] Handshake. \n");
     
-    
-    
-    
-    
-    
-    
-    
-    
+    recv(desc_socket, resposta, 100,0);
+    printf("\n[Cliente] Servidor: [%s]",  resposta);
+    if(strcmp(resposta, "200") == 0) Responder(desc_socket); //entra em modo de resposta
+    else{
+        printf("\n[Cliente] Nao entendi!");    
+        write(desc_socket, "-1", strlen("-1 nao entendi")+1, 0); //senao, nao entendi
+    }
     return 0;
+}
+
+int Responder(int desc_socket){
+    
+    write(desc_socket, "200 ok", strlen("200 ok")+1, 0);
 }
 
 

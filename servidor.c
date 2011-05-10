@@ -30,18 +30,26 @@ void trataConexao(int socket_cliente)
 {
     
     char buffer[100];
-    int n, sair=0;;
+    int n, sair=0;
     
-    while( !sair){
+    while(!sair){
         n=recv(socket_cliente,buffer, 100,0);
-        printf("\n[Servidor] Recebido %d bytes do Cliente mensagem=[%s] ", n,buffer);
+        printf("\n[Servidor] %d bytes do Cliente, mensagem=[%s] ", n,buffer);
         fflush(stdout);
         if(strcmp(buffer,"sair")==0){
             sair=1;
-            strcpy(buffer,"to saindo ....");
+            strcpy(buffer,"Saindo...");
         }
-        else
+        else{
             strcpy(buffer,"ok");
+            write (socket_cliente,buffer, strlen(buffer)+1,0);
+            
+            printf("\n[Servidor] Perguntando... \n");
+            //Entrar em modo de envio de perguntas
+            Perguntar(socket_cliente);
+            
+            
+        }
         write (socket_cliente,buffer, strlen(buffer)+1,0);
     }
     close(socket_cliente);
@@ -109,4 +117,20 @@ int main(void)
     printf("\n[Servidor] Finalizado corretamente...\n");
     return 0;
 }
+
+
+void Perguntar(int socket_cliente){
+    //Posso perguntar?
+    printf("\n[Servidor] Posso perguntar? \n");
+    char pergunta[100];
+    
+    strcpy(pergunta,"200");
+    write (socket_cliente,pergunta, strlen(pergunta)+1,0);
+}
+
+
+
+
+
+
 
