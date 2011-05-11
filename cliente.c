@@ -115,6 +115,7 @@ int main( void )
         }
         
         if (strcmp(buffer, "handshake") == 0) HandShake();
+        if(strcmp(buffer, "200") == 0) Responder();
         
         
         write(desc_socket, buffer, strlen(buffer)+1, 0);
@@ -159,8 +160,9 @@ int HandShake(int desc_socket){
 }
 
 int Responder(int desc_socket){
-    
+    printf("[Cliente] Respondendo... \n");
     write(desc_socket, "200 ok", strlen("200 ok")+1, 0);
+    
 }
 
 

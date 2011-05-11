@@ -46,7 +46,7 @@ void trataConexao(int socket_cliente)
             
             printf("\n[Servidor] Perguntando... \n");
             //Entrar em modo de envio de perguntas
-            Perguntar(socket_cliente);
+            sair = Perguntar(socket_cliente);
             
             
         }
@@ -119,13 +119,36 @@ int main(void)
 }
 
 
-void Perguntar(int socket_cliente){
+int Perguntar(int socket_cliente){
     //Posso perguntar?
     printf("\n[Servidor] Posso perguntar? \n");
     char pergunta[100];
+    char resposta[100];
+    int sair = 1;
+    /*
+    strcpy(pergunta,"200");
+    write (socket_cliente, pergunta, strlen(pergunta)+1,0);
+    int resp = recv(socket_cliente,resposta, 100,0);
+    
+    printf("[Servidor] Cliente respondeu: %s.", resposta);
+    */
     
     strcpy(pergunta,"200");
-    write (socket_cliente,pergunta, strlen(pergunta)+1,0);
+    write (socket_cliente, pergunta, strlen(pergunta)+1,0);
+    
+    while(!sair){
+        recv(socket_cliente, resposta, 100,0);
+        
+        if(strcmp(resposta,"sair") == 0){
+            sair=1;
+            printf("[Servidor] saindo... \n");
+            return 0;
+        }
+        else if(strcmp(resposta, "200 ok")){
+            printf("\n[Servidor] Iniciando perguntans... \n");            
+        }
+        return 1;
+    }
 }
 
 
