@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <netinet/in.h>
-//isso aparece no git?
+
 #define ADDRESS     "127.0.0.1"  /* coloque aqui o IP do servidor */
 #define PORTA       5193         /* coloque aqui o numero da porta do servidor*/
 
@@ -110,13 +110,10 @@ int main( void )
         printf("\n[Cliente] Bem vindo ao Projeto Inter 2011! (\"sair\" encerra):");
         scanf("%s", buffer);
         if (strcmp(buffer, "sair") == 0){
-            Sair(desc_socket);
             sair = 1;
         }
         
-        if (strcmp(buffer, "handshake") == 0) HandShake();
-        if(strcmp(buffer, "200") == 0) Responder();
-        
+        if(strcmp(buffer, "200") == 0) Responder();     
         
         write(desc_socket, buffer, strlen(buffer)+1, 0);
         printf("\n[Cliente] ...");
@@ -144,25 +141,9 @@ void Sair(int desc_socket){
     printf("Conexão terminada. \n");
 }
 
-int HandShake(int desc_socket){
-    char resposta[100];
-    
-    printf("\n[Cliente] Handshake. \n");
-    
-    recv(desc_socket, resposta, 100,0);
-    printf("\n[Cliente] Servidor: [%s]",  resposta);
-    if(strcmp(resposta, "200") == 0) Responder(desc_socket); //entra em modo de resposta
-    else{
-        printf("\n[Cliente] Nao entendi!");    
-        write(desc_socket, "-1", strlen("-1 nao entendi")+1, 0); //senao, nao entendi
-    }
-    return 0;
-}
-
 int Responder(int desc_socket){
     printf("[Cliente] Respondendo... \n");
-    write(desc_socket, "200 ok", strlen("200 ok")+1, 0);
-    
+    write(desc_socket, "200 ok", strlen("200 ok")+1, 0);    
 }
 
 

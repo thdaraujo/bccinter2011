@@ -26,10 +26,12 @@
 #define PORTA       5193        /* coloque aqui o numero da porta do servidor*/
 #define CONEXOES    5           /* numero de conexoes simultaneas */
 
+int indexPergunta = 0;
+
 void trataConexao(int socket_cliente)
 {
     
-    char buffer[100];
+    char *buffer = malloc(100 * sizeof(char));
     int n, sair=0;
     
     while(!sair){
@@ -41,13 +43,12 @@ void trataConexao(int socket_cliente)
             strcpy(buffer,"Saindo...");
         }
         else{
-            strcpy(buffer,"ok");
-            write (socket_cliente,buffer, strlen(buffer)+1,0);
-            
-            printf("\n[Servidor] Perguntando... \n");
-            //Entrar em modo de envio de perguntas
-            sair = Perguntar(socket_cliente);
-            
+            strcpy(buffer,"200");            
+            if(strcpy(buffer,"200 ok")){
+                
+                printf("\n[Servidor] Perguntando... \n"); 
+                perguntar(buffer);
+            }
             
         }
         write (socket_cliente,buffer, strlen(buffer)+1,0);
@@ -118,37 +119,14 @@ int main(void)
     return 0;
 }
 
-
-int Perguntar(int socket_cliente){
+void perguntar(char *buffer){
+    
     //Posso perguntar?
-    printf("\n[Servidor] Posso perguntar? \n");
-    char pergunta[100];
-    char resposta[100];
-    int sair = 1;
-    /*
-    strcpy(pergunta,"200");
-    write (socket_cliente, pergunta, strlen(pergunta)+1,0);
-    int resp = recv(socket_cliente,resposta, 100,0);
+    printf("\n[Servidor] Pergunta %d \n", indexPergunta++);
     
-    printf("[Servidor] Cliente respondeu: %s.", resposta);
-    */
+    strcpy(buffer, "pergunta 1");
     
-    strcpy(pergunta,"200");
-    write (socket_cliente, pergunta, strlen(pergunta)+1,0);
-    
-    while(!sair){
-        recv(socket_cliente, resposta, 100,0);
-        
-        if(strcmp(resposta,"sair") == 0){
-            sair=1;
-            printf("[Servidor] saindo... \n");
-            return 0;
-        }
-        else if(strcmp(resposta, "200 ok")){
-            printf("\n[Servidor] Iniciando perguntans... \n");            
-        }
-        return 1;
-    }
+    return buffer;    
 }
 
 
