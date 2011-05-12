@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <netinet/in.h>
-
+//isso aparece no git?
 #define ADDRESS     "127.0.0.1"  /* coloque aqui o IP do servidor */
 #define PORTA       5193         /* coloque aqui o numero da porta do servidor*/
 
