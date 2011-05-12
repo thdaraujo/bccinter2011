@@ -32,6 +32,7 @@ void trataConexao(int socket_cliente)
 {
     
     char *buffer = malloc(100 * sizeof(char));
+    
     int n, sair=0;
     
     while(!sair){
@@ -109,8 +110,7 @@ int main(void)
         perror("[Servidor] erro no accept");
         exit(1);
     }
- /*   char *ping = ("ping %s", end_remoto->sin_addr);
-    system(ping); */
+
     trataConexao(newsocket);
     
     // Fecha socket servidor

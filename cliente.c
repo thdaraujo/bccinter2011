@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 
+
 #define ADDRESS     "127.0.0.1"  /* coloque aqui o IP do servidor */
 #define PORTA       5193         /* coloque aqui o numero da porta do servidor*/
 
@@ -32,6 +33,7 @@ int main( void )
     int  desc_socket; /*descritor do socket do cliente*/ 
     struct sockaddr_in endereco; /* endereco do servidor (ip+porta)*/
     char buffer[100];
+    char bufferServ[100];
     int sair=0;
     
     /*
@@ -103,42 +105,29 @@ int main( void )
         exit(1);
     }
     
-    char *ping = ("ping %s:%d", endereco, PORTA);
-    system(ping);
+    printf("\n[Cliente] Bem vindo ao Projeto Inter 2011! (\"sair\" encerra):");
     while(!sair)
     {
-        printf("\n[Cliente] Bem vindo ao Projeto Inter 2011! (\"sair\" encerra):");
         scanf("%s", buffer);
-        if (strcmp(buffer, "sair") == 0){
-            sair = 1;
-        }
+        if (strcmp(buffer, "sair") == 0) sair = 1;
+
         
-        if(strcmp(buffer, "200") == 0) Responder();     
+        if(strcmp(bufferServ, "200") == 0) Responder(); 
+        else if(strcmp(bufferServ, "erro")) printf("\n[Cliente] Servidor respondeu com %s", bufferServ);
+        
         
         write(desc_socket, buffer, strlen(buffer)+1, 0);
         printf("\n[Cliente] ...");
         
-        recv(desc_socket, buffer, 100,0);
+        recv(desc_socket, bufferServ, 100,0);
         printf("\n[Cliente] Servidor: [%s]",  buffer);
-    }
+    }    
     close(desc_socket);
+
+    
     printf("\n[Cliente] Finalizado corretamente...\n");
     
     return 0;
-}
-
-void Sair(int desc_socket){
-    char resposta[100];
-    write(desc_socket, "bye", strlen("bye")+1, 0);
-    
-    recv(desc_socket, resposta, 100,0);
-    printf("\n[Cliente] Servidor: [%s]",  resposta);
-    
-    write(desc_socket, "bye", strlen("bye")+1, 0);
-    wait(5);
-            
-    close(desc_socket);
-    printf("Conexão terminada. \n");
 }
 
 int Responder(int desc_socket){
