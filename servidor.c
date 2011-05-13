@@ -36,21 +36,23 @@ void trataConexao(int socket_cliente)
     int n, sair=0;
     
     while(!sair){
-        n=recv(socket_cliente,buffer, 100,0);
-        printf("\n[Servidor] %d bytes do Cliente, mensagem=[%s] ", n,buffer);
+        n = recv(socket_cliente,buffer, 100,0);
+        printf("\n[Servidor] %d bytes do Cliente, mensagem=[%s] ", n, buffer);
         fflush(stdout);
-        if(strcmp(buffer,"sair")==0){
-            sair=1;
+        if(strcmp(buffer,"sair") == 0){
+            sair = 1;
             strcpy(buffer,"Saindo...");
         }
-        else{
-            strcpy(buffer,"200");            
-            if(strcpy(buffer,"200 ok")){
+        if{ 
+            write (socket_cliente,"200", strlen(buffer)+1,0);
+            
+            //Perguntar
+            
+            if(strcmp(buffer, "200 ok")){
                 
                 printf("\n[Servidor] Perguntando... \n"); 
                 perguntar(buffer);
             }
-            
         }
         write (socket_cliente,buffer, strlen(buffer)+1,0);
     }
@@ -83,8 +85,8 @@ int main(void)
     end_local.sin_port = htons(PORTA); 
     end_local.sin_addr.s_addr=inet_addr(ADDRESS);
     
-    /* funÁ„o serve para associar uma porta local e um endereco local a um socket. Essa
-     funÁ„o È muito usada com outra funÁ„o, a listen()*/
+    /* funcao serve para associar uma porta local e um endereco local a um socket. Essa
+     funcao eh muito usada com outra funcao, a listen() */
     if(bind(desc_socket, (struct sockaddr *)&end_local, sizeof(end_local)) < 0){
         perror("[Servidor] erro no bind");
         exit(1);
@@ -92,7 +94,7 @@ int main(void)
     printf("\n[Servidor] Servidor no ar...\n\n"); 
     
     /*
-     * Espera uma determinada conex„o em um socket.
+     * Espera uma determinada conexao em um socket.
      */
     if (listen(desc_socket, CONEXOES) < 0) {
         perror("[Servidor] erro no listen");
@@ -101,8 +103,8 @@ int main(void)
     
     
     /*
-     funÁ„o respons·vel por aceitar uma conex„o em um socket. Um socket cliente pede
-     permiss„o para um socket servidor para que ambos se comuniquem.
+     funcao responsavel por aceitar uma conexao em um socket. Um socket cliente pede
+     permissao para um socket servidor para que ambos se comuniquem.
      */
     len_end_remoto = sizeof(struct sockaddr_in);
     newsocket = accept(desc_socket, (struct sockaddr *) &end_remoto, &len_end_remoto);
@@ -124,7 +126,7 @@ void perguntar(char *buffer){
     //Posso perguntar?
     printf("\n[Servidor] Pergunta %d \n", indexPergunta++);
     
-    strcpy(buffer, "pergunta 1");
+    strcpy(buffer, "pergunta 1: \n a) \n b) \n c) \n d)");
     
     return buffer;    
 }
