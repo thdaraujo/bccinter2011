@@ -3,17 +3,11 @@
 //  Inter2011
 //
 //  Created by Admin on 5/9/11.
-//  Copyright 2011 worf. All rights reserved.
 //
 
 
 /*------------------------------------------------------------
- * Programa: cliente.c 
- *           codigo do programa cliente utilizando TCP 
- *
- * Objetivo: alocar um socket, conectar ao servidor e enviar
- *		       uma mensagem de ola e aguardar a resposta do servidor.
- * Autor...: Fabio Lubacheski
+ Diego Wolff e Thiago Araujo.
  *----------------------------------------------------------
  */
 

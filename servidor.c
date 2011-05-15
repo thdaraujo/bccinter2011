@@ -2,15 +2,9 @@
 //  servidor.c
 //  Inter2011
 //
-//  Created by Admin on 5/9/11.
-//  Copyright 2011 worf. All rights reserved.
-//
 
 /*------------------------------------------------------------
- * Programa: servidor.c 
- *           codigo do programa servidor utilizando TCP 
- *
- * Autor...: Fabio Lubacheski
+ * Diego Wolff e Thiago Araujo
  *----------------------------------------------------------
  */
 
@@ -24,12 +18,34 @@
 
 #define ADDRESS     "127.0.0.1" /* coloque aqui o IP do servidor */
 #define PORTA       5193        /* coloque aqui o numero da porta do servidor*/
-#define CONEXOES    5           /* numero de conexoes simultaneas */
+#define CONEXOES    5  
+
+char *getPergunta(int n);
+char **preencherPerguntas(char **perguntas, int posicoes);
+void esvaziarPerguntas(char **p, int posicoes);
+
+char **perguntas;
+char *respostas;/* numero de conexoes simultaneas */
 
 int indexPergunta = 0;
 
 void trataConexao(int socket_cliente)
 {
+    
+    
+    int y;
+	perguntas = malloc(10 * sizeof(char **));	
+	char *c = malloc(101 * sizeof(char));
+	char **p;
+    int indiceRespPergunta;
+    int score;
+    
+	p = preencherPerguntas(perguntas, 10);
+	if(p == NULL){
+		printf("Sem memoria! \n");
+		exit(1);
+	}
+
     
     char *buffer = malloc(100 * sizeof(char));
     
@@ -43,7 +59,7 @@ void trataConexao(int socket_cliente)
             sair = 1;
             strcpy(buffer,"Saindo...");
         }
-        if{ 
+        else{ 
             write (socket_cliente,"200", strlen(buffer)+1,0);
             
             //Perguntar
@@ -131,9 +147,70 @@ void perguntar(char *buffer){
     return buffer;    
 }
 
+char *getPergunta(int n)
+{
+    if (n > 10 || n < 0) return NULL;
+    if(perguntas != NULL) return perguntas[n];
+    return NULL;
+}
 
+char **preencherPerguntas(char **perguntas, int posicoes){
+        printf("\n chegou aqui."); 
+    if(perguntas == NULL) return NULL;
+    for(int i = 0; i < 10; i++) perguntas[i] = malloc(101*sizeof(char *));
+    
+        printf("\n chegou aqui tbm."); 
+    
 
+    
+    perguntas[0] = "1. Qual o numero de estrelas que possue nossa Via Lactea? \n a) 5 bilhoes \n b) 100 bilhoes \n c) 1 trilhao \n d) 100 trilhoes \n ";
+    
+    perguntas[1] = "2. Qual é a Temperatura da superficie do Sol? \n a) 5 bilhoes de graus C \n b) 100 bilhoes de graus C \n c) 1 trilhao de graus C \n d) 100 trilhoes de graus C \n";
+    perguntas[2] = "3. Qual é o tamanho da Montanha K2? \n a) 5 mil metros \n b) 100 mil metros \n c) 1 1 milhao de m \n d) 100 trilhoes de m \n";
+    perguntas[3] = "4. Qual é a temperatura mais baixa ja registrada? \n a) 0 oC \n b) -100 oC \n c) -200 oC \n d) -272 oC \n";
+    perguntas[4] = "5. Qual é a maior profundidade dos Oceanos? \n a) 5km \n b) 100km c) 1000m \n d) 500km \n"; 
+    perguntas[5] = "6. Quantas vezes o beija-flor bate as asas por segundo? \n a) 5 \n b) 10 \n c) 100 \n d) 1000 \n"; 
+    perguntas[6] = "7. Qual o lugar mais quente da Terra? \n a) Saara \n b) Ecuador \n c) Salvador \n d) Rua Augusta \n";
+    perguntas[7] = "8. Qual é o maior monumento construido pelo homem? \n a) Torres Gemeas \n b) Cristo Redentor \n c) Piramides do Egito \n d) A Lua \n";
+    perguntas[8] = "9. Qual é o maior país do mundo? \n a) Russia \n b) EUA \n c) China \n d) Uzbequistao \n";
+    perguntas[9] = "10. Qual é o animal mais rapido do mundo? \n a) Guepardo \n b) Aguia pescadora \n c) Cometa Halley \n d) Ferrari F50 \n";
+    
+    
+    return perguntas;
+}
 
+void esvaziarPerguntas(char **p, int posicoes){
+    printf("Esvaziando perguntas... \n");
+    if(p != NULL){
+        //como as posicoes do vetor nao foram alocadas com malloc, nao
+        //posso dar free (pois estão no heap).
+        /*for(int i = 0; i < posicoes; i++){
+         free(p[i]);
+         }
+         free(*p); */
+        
+        free(p);
+        p = NULL;
+    }
+}
+
+char *preencherRespostas(char *respostas, int posicoes){
+    if(respostas == NULL) return NULL;
+    for(int i = 0; i < 10; i++) respostas = malloc(10 * sizeof(char));
+    
+    respostas[0] = 'b';
+    respostas[1] = 'b';
+    respostas[2] = 'a';
+    respostas[3] = 'b';
+    respostas[4] = 'c';
+    respostas[5] = 'b';
+    respostas[6] = 'a';
+    respostas[7] = 'b';
+    respostas[8] = 'c';
+    respostas[9] = 'c';
+    
+    return respostas;
+}
 
 
 
