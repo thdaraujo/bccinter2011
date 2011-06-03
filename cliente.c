@@ -70,8 +70,29 @@ int main( void )
 }
 
 int Responder(int desc_socket){
+    char buffer[100];
+    char bufferServ[100];
+
+
     printf("[Cliente] Respondendo... \n");
-    write(desc_socket, "200 ok", strlen("200 ok")+1, 0);    
+    write(desc_socket, "200 ok", strlen("200 ok")+1, 0); 
+    
+    int fimMsg = 0;
+    int fimOperacao = 0;
+    while(!fimOperacao){
+        while(!fimMsg){
+            recv(desc_socket, bufferServ, 100,0);
+            if (strcmp(buffer, "100") == 0){
+                printf(" Resposta: a b c ou d? \n");
+                fimMsg = 1;
+            }
+        }
+        
+        if(strcmp(buffer, "500") == 0) break;
+        scanf("%s", buffer);
+        write(desc_socket, "300", strlen(buffer)+1, 0); 
+        write(desc_socket, buffer, strlen(buffer)+1, 0); 
+    }        
 }
 
 

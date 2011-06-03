@@ -25,7 +25,7 @@ char **preencherPerguntas(char **perguntas, int posicoes);
 void esvaziarPerguntas(char **p, int posicoes);
 
 char **perguntas;
-char *respostas;/* numero de conexoes simultaneas */
+char *respostas; /* numero de conexoes simultaneas */
 
 int indexPergunta = 0;
 
@@ -34,7 +34,7 @@ void trataConexao(int socket_cliente)
     
     
     int y;
-	perguntas = malloc(10 * sizeof(char **));	
+	perguntas = malloc(10 * sizeof(char *));	
 	char *c = malloc(101 * sizeof(char));
 	char **p;
     int indiceRespPergunta;
